@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
 
-  final List<ShopItem> items = [
-    ShopItem("Lihat Produk", Icons.checklist),
-    ShopItem("Tambah Produk", Icons.add_shopping_cart),
-    ShopItem("Logout", Icons.logout),
+  final List<WargoItem> items = [
+    WargoItem("Lihat Item", Icons.checklist),
+    WargoItem("Tambah Item", Icons.add_shopping_cart),
+    WargoItem("Logout", Icons.logout),
   ];
 
   @override
@@ -19,7 +19,7 @@ class MyHomePage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor:Colors.indigo,
+        backgroundColor:Colors.cyan,
       ),
       body: SingleChildScrollView(
         // Widget wrapper yang dapat discroll
@@ -49,9 +49,9 @@ class MyHomePage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 crossAxisCount: 3,
                 shrinkWrap: true,
-                children: items.map((ShopItem item) {
+                children: items.map((WargoItem item) {
                   // Iterasi untuk setiap item
-                  return ShopCard(item);
+                  return WargoCard(item);
                 }).toList(),
               ),
             ],
@@ -62,22 +62,33 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class ShopItem {
+class WargoItem {
   final String name;
   final IconData icon;
 
-  ShopItem(this.name, this.icon);
+  WargoItem(this.name, this.icon);
 }
 
-class ShopCard extends StatelessWidget {
-  final ShopItem item;
+class WargoCard extends StatelessWidget {
+  final WargoItem item;
 
-  const ShopCard(this.item, {super.key}); // Constructor
+  const WargoCard(this.item, {super.key}); // Constructor
 
   @override
   Widget build(BuildContext context) {
+    var btnColor;
+    if (item.name.compareTo("Lihat Item") == 0) {
+      btnColor= Colors.orange;
+    }
+    else if (item.name.compareTo("Tambah Item") == 0) {
+      btnColor= Colors.cyan;
+    }
+    else if (item.name.compareTo("Logout") == 0) {
+      btnColor= Colors.red;
+    }
+
     return Material(
-      color: Colors.indigo,
+      color: btnColor,
       child: InkWell(
         // Area responsive terhadap sentuhan
         onTap: () {
