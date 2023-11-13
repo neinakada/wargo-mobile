@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wargo/menu.dart';
+import 'package:wargo/screens/menu.dart';
 
 void main() {
   runApp(const MyApp());
