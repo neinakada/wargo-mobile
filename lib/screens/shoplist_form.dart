@@ -11,6 +11,7 @@ class ShopFormPage extends StatefulWidget {
 class _ShopFormPageState extends State<ShopFormPage> {
   final _formKey = GlobalKey<FormState>();
   String _name = "";
+  int _amount = 0;
   int _price = 0;
   String _description = "";
 
@@ -51,6 +52,33 @@ class _ShopFormPageState extends State<ShopFormPage> {
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
                         return "Nama tidak boleh kosong!";
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: "Amount",
+                      labelText: "Amount",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                    onChanged: (String? value) {
+                      setState(() {
+                        _amount = int.parse(value!);
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return "Amount tidak boleh kosong!";
+                      }
+                      if (int.tryParse(value) == null) {
+                        return "Amount harus berupa angka!";
                       }
                       return null;
                     },
@@ -130,8 +158,9 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                     CrossAxisAlignment.start,
                                     children: [
                                       Text('Nama: $_name'),
+                                      Text('Amount: $_amount'),
                                       Text('Harga: $_price'),
-                                      Text('Deskripsi: $_description')
+                                      Text('Deskripsi: $_description'),
                                     ],
                                   ),
                                 ),

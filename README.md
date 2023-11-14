@@ -197,114 +197,137 @@
           }
       }
     ```
-    - **Memakai minimal tiga elemen input, yaitu name, amount, description. Tambahkan elemen input sesuai dengan model pada aplikasi tugas Django yang telah kamu buat.**
-      Mengisi class _ShopFormPageState dengan kode dibawah pada file `shoplist_form.dart` 
-      ```
-        final _formKey = GlobalKey<FormState>();
-        String _name = "";
-        int _price = 0;
-        String _description = "";
+  - **Memakai minimal tiga elemen input, yaitu name, amount, description. Tambahkan elemen input sesuai dengan model pada aplikasi tugas Django yang telah kamu buat.**
+    Mengisi class _ShopFormPageState dengan kode dibawah pada file `shoplist_form.dart` 
+    ```
+      final _formKey = GlobalKey<FormState>();
+      String _name = "";
+      int _amount = 0;
+      int _price = 0;
+      String _description = "";
+    
+      @override
+      Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Center(
+            child: Text(
+              'Form Tambah Item',
+            ),
+          ),
+          backgroundColor: Colors.cyan,
+          foregroundColor: Colors.white,
+        ),
+        drawer: const LeftDrawer(),
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        hintText: "Nama Item",
+                        labelText: "Nama Item",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
+                      onChanged: (String? value) {
+                        setState(() {
+                          _name = value!;
+                        });
+                      },
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Nama tidak boleh kosong!";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
 
-        @override
-        Widget build(BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Center(
-                child: Text(
-                  'Form Tambah Item',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Amount",
+                    labelText: "Amount",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _amount = int.parse(value!);
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Amount tidak boleh kosong!";
+                    }
+                    if (int.tryParse(value) == null) {
+                      return "Amount harus berupa angka!";
+                    }
+                    return null;
+                  },
                 ),
               ),
-              backgroundColor: Colors.cyan,
-              foregroundColor: Colors.white,
-            ),
-            drawer: const LeftDrawer(),
-            body: Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "Nama Item",
-                            labelText: "Nama Item",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                          ),
-                          onChanged: (String? value) {
-                            setState(() {
-                              _name = value!;
-                            });
-                          },
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "Nama tidak boleh kosong!";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
 
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "Harga",
-                            labelText: "Harga",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                          ),
-                          onChanged: (String? value) {
-                            setState(() {
-                              _price = int.parse(value!);
-                            });
-                          },
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "Harga tidak boleh kosong!";
-                            }
-                            if (int.tryParse(value) == null) {
-                              return "Harga harus berupa angka!";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "Deskripsi",
-                            labelText: "Deskripsi",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                          ),
-                          onChanged: (String? value) {
-                            setState(() {
-                              _description = value!;
-                            });
-                          },
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "Deskripsi tidak boleh kosong!";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ]
-                  )
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Harga",
+                    labelText: "Harga",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _price = int.parse(value!);
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Harga tidak boleh kosong!";
+                    }
+                    if (int.tryParse(value) == null) {
+                      return "Harga harus berupa angka!";
+                    }
+                    return null;
+                  },
+                ),
               ),
-            ),
-          );
-        }    
-      ```
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Deskripsi",
+                    labelText: "Deskripsi",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _description = value!;
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Deskripsi tidak boleh kosong!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+ 
+    ```
     - **Memiliki sebuah tombol Save.**
         Menambahkan kode dibawah pada class _ShopFormPageState di bagian `returnScaffold(...)` pada file `shoplist_form.dart`
         ```
