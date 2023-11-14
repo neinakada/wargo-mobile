@@ -159,6 +159,6 @@ class _ShopFormPageState extends State<ShopFormPage> {
               ]),
         ),
       ),
-    );;
+    );
   }
 }
