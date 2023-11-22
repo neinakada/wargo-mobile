@@ -42,7 +42,8 @@
                         padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                         // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                         child: Text(
-                          'Wargo Inventory', // Text yang menandakan toko
+                          'Wargo Inventory', // Text yang me
+                kan toko
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 30,
@@ -138,7 +139,7 @@
       **Stateful Widget** adalah jenis widget yang memiliki keadaan yang bisa berubah. State widget ini dapat diubah selama aplikasi berjalan. Contohnya adalah ketika pengguna berinteraksi dengan widget tersebut. Stateful Widget biasanya digunakan ketika kita memerlukan widget yang bisa berubah sesuai dengan tindakan atau interaksi yang dilakukan oleh pengguna.
 
     - Sebutkan seluruh widget yang kamu gunakan untuk menyelesaikan tugas ini dan jelaskan fungsinya masing-masing.
-        - MyHomePage (StatelessWidget): Ini merupakan widget utama yang mewakili halaman beranda dalam aplikasi untuk mengatur tampilan utama aplikasi dan termasuk dalam Scaffold.
+        - MyHomePage (StatelessWidget): Ini merupakan widget utama yang mewakili halaman be dalam aplikasi untuk mengatur tampilan utama aplikasi dan termasuk dalam Scaffold.
         - Scaffold: Merupakan widget yang menyediakan kerangka dasar untuk halaman aplikasi. Scaffold mencakup AppBar dan body, serta atribut lain yang digunakan untuk mengatur tampilan.
         - AppBar: Bagian dari Scaffold yang menyajikan bagian atas (app bar) yang berisi judul aplikasi.
         - GridView.count: Untuk menampilkan tata letak grid yang berisi sejumlah item (cards).
@@ -574,3 +575,196 @@
             Shared Library berisi komponen-komponen yang dapat digunakan ulang, fungsionalitas umum (navigasi, jaringan), dan pustaka pihak ketiga.
 
         Konsep utama Clean Architecture pada Flutter adalah pemisahan yang jelas antara logika, akses data, dan interface. Penerapan clean architecture dapat mempermudah dalam pengujian, meningkatkan skalabilitas, dan membuat proyek lebih mudah dipahami dan dikelola. Implementasinya melibatkan penggunaan prinsip-prinsip seperti "*Single Responsibility Principle*," "*Dependency Injection*," dan pemisahan yang ketat antara *dependency*.
+
+## TUGAS 9
+
+- [x] Memastikan deployment proyek tugas Django kamu telah berjalan dengan baik.
+
+    Memastikan secret variables pada repository sudah sesuai dengan ketentuan dan benar. 
+
+- [x] Membuat halaman login pada proyek tugas Flutter.
+
+    Membuat file `login.dart` pada proyek Flutter dan menambahkan kode berikut:
+
+        import 'package:wargo/screens/menu.dart';
+        import 'package:flutter/material.dart';
+        import 'package:pbp_django_auth/pbp_django_auth.dart';
+        import 'package:provider/provider.dart';
+
+        void main() {
+          runApp(const LoginApp());
+        }
+
+        class LoginApp extends StatelessWidget {
+          const LoginApp({super.key});
+
+          @override
+          Widget build(BuildContext context) {
+            return MaterialApp(
+              title: 'Login',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              home: const LoginPage(),
+            );
+          }
+        }
+
+        class LoginPage extends StatefulWidget {
+          const LoginPage({super.key});
+
+          @override
+          _LoginPageState createState() => _LoginPageState();
+        }
+
+        class _LoginPageState extends State<LoginPage> {
+          final TextEditingController _usernameController = TextEditingController();
+          final TextEditingController _passwordController = TextEditingController();
+
+          @override
+          Widget build(BuildContext context) {
+            final request = context.watch<CookieRequest>();
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Login'),
+              ),
+              body: Container(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextField(
+                      controller: _usernameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Username',
+                      ),
+                    ),
+                    const SizedBox(height: 12.0),
+                    TextField(
+                      controller: _passwordController,
+                      decoration: const InputDecoration(
+                        labelText: 'Password',
+                      ),
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 24.0),
+                    ElevatedButton(
+                      onPressed: () async {
+
+                        String username = _usernameController.text;
+                        String password = _passwordController.text;
+
+                        // Cek kredensial
+                        // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+                        // Untuk menyambungkan Android emulator dengan Django pada localhost,
+                        // gunakan URL http://10.0.2.2/
+                        final response = await request.login("http://127.0.0.1:8000/auth/login/", {
+                          'username': username,
+                          'password': password,
+                        });
+
+                        if (request.loggedIn) {
+                          String message = response['message'];
+                          String uname = response['username'];
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyHomePage()),
+                          );
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(
+                                SnackBar(content: Text("$message Selamat datang, $uname.")));
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Login Gagal'),
+                              content:
+                              Text(response['message']),
+                              actions: [
+                                TextButton(
+                                  child: const Text('OK'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('Login'),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+        }
+
+- [x] Mengintegrasikan sistem autentikasi Django dengan proyek tugas Flutter.
+
+
+
+- [x] Membuat model kustom sesuai dengan proyek aplikasi Django.
+
+- [x] Membuat halaman yang berisi daftar semua item yang terdapat pada endpoint JSON di Django yang telah kamu deploy.
+    - [x] Tampilkan name, amount, dan description dari masing-masing item pada halaman ini.
+
+- [x] Membuat halaman detail untuk setiap item yang terdapat pada halaman daftar Item.
+    - [x] Halaman ini dapat diakses dengan menekan salah satu item pada halaman daftar Item.
+    - [x] Tampilkan seluruh atribut pada model item kamu pada halaman ini.
+    - [x] Tambahkan tombol untuk kembali ke halaman daftar item.
+
+- [x]  **Menjawab beberapa pertanyaan berikut pada README.md pada root folder (silakan modifikasi README.md yang telah kamu buat sebelumnya; tambahkan subjudul untuk setiap tugas).**
+    - **Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?**
+
+      Bisa. Dalam Flutter dengan Dart, kita dapat menggunakan json.decode untuk mengubah string JSON menjadi Map, kemudian mengakses nilai-nilai tertentu dari Map tersebut.
+
+      Namun, hal ini belum tentu lebih baik, tergantung dengan webapp yang dirancang. Dengan menggunakan Models, terdapat beberapa keunggulan meliputi meningkatkan readability dan maintanability kode. Selain itu, models juga dapat memudahkan refactoring. 
+
+      Jadi, jika kita ingin untuk merancang webapp yang rapi dan lebih mudah untuk dikembangkan, sebaiknya menggunakan Models.
+
+    - **Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.**
+        
+        **CookieRequest** berfungsi untuk mengirim request HTTP dengan cookie. Dengan dikirimnya sebuah HTTP request, sebuah cookie ikut disertakan dalam request tersebut sehingga server dapat mengidentifikasi user yang terautentikasi dan akan menyimpan informasi session user. Instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi flutter agar semua komponen dapat mengakses cookie yang sama untuk mengakses informasi pengguna terauntentikasi yang sama.
+
+    - **Jelaskan mekanisme pengambilan data dari JSON hingga dapat ditampilkan pada Flutter.**
+
+        **Membaca Data JSON:** Pertama, perlu membaca data JSON. Ini bisa dilakukan dengan menggunakan rootBundle.loadString jika membaca file JSON lokal, atau dengan menggunakan `http.get` jika mengambil data dari API.
+
+        **Decoding JSON:** Setelah mendapatkan string JSON, perlu mengubahnya menjadi struktur data Dart yang dapat dikerjakan. Ini bisa dilakukan dengan `json.decode`.
+
+        **Mengakses Data:** Setelah memiliki data dalam format Dart (biasanya Map atau List), kita dapat mengakses nilai-nilai tertentu dari data tersebut.
+
+        **Menampilkan Data:** Akhirnya, kita dapat menampilkan data ini di Flutter. Misalnya dengan menggunakan `ListView.builder` untuk menampilkan daftar item dari data JSON.
+
+    - **Jelaskan mekanisme autentikasi dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.**
+
+       Berikut adalah mekanisme autentikasi dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter:
+
+        1. **Input Data Akun**: Pengguna memasukkan data akun (misalnya username dan password) di aplikasi Flutter.
+
+        2. **Pengiriman Data**: Aplikasi Flutter mengirimkan data ini ke server Django menggunakan HTTP POST request. Biasanya, data ini dikirim dalam format JSON.
+
+        3. **Autentikasi Django**: Django menerima data ini dan mencoba untuk mengautentikasi pengguna. Ini biasanya melibatkan pencocokan username dan password dengan data yang ada di database.
+
+        4. **Pembuatan Token**: Jika autentikasi berhasil, Django akan membuat token autentikasi untuk pengguna. Token ini adalah string unik yang digunakan untuk mengidentifikasi pengguna dalam semua request selanjutnya.
+
+        5. **Pengiriman Token**: Django mengirimkan token ini kembali ke aplikasi Flutter dalam response HTTP.
+
+        6. **Penyimpanan Token**: Aplikasi Flutter menerima token ini dan menyimpannya untuk digunakan dalam request selanjutnya. Token ini biasanya disimpan di local storage atau dalam state management system.
+
+        7. **Navigasi Menu**: Setelah token diterima dan disimpan, aplikasi Flutter biasanya akan menavigasi pengguna ke halaman atau menu utama.
+
+        8. **Request Selanjutnya**: Untuk request selanjutnya, aplikasi Flutter akan menyertakan token ini dalam header Authorization dari HTTP request. Ini memungkinkan Django untuk mengidentifikasi pengguna dan memastikan bahwa mereka telah diautentikasi.
+
+    - **Sebutkan seluruh widget yang kamu pakai pada tugas ini dan jelaskan fungsinya masing-masing.**
+
+          1. Scaffold sebagai kerangka dasar aplikasi
+          2. LeftDrawer sebagai widget untuk navigasi ke tambah produk baru dan lihat produk
+          3. AppBar sebagai bagian baris judul di bagian atas layar
+          4. ListView.builder untuk membuat daftar elemen dengan jumlah dinamis
+          5. Text untuk menampilkan teks
+          6. Column sebagai wadah vertical untuk layout
+          7. FutureBuilder untuk membangun user interface berdasarkan status future
