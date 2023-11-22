@@ -576,7 +576,7 @@
 
         Konsep utama Clean Architecture pada Flutter adalah pemisahan yang jelas antara logika, akses data, dan interface. Penerapan clean architecture dapat mempermudah dalam pengujian, meningkatkan skalabilitas, dan membuat proyek lebih mudah dipahami dan dikelola. Implementasinya melibatkan penggunaan prinsip-prinsip seperti "*Single Responsibility Principle*," "*Dependency Injection*," dan pemisahan yang ketat antara *dependency*.
 
-## TUGAS 9
+## Tugas 9
 
 - [x] Memastikan deployment proyek tugas Django kamu telah berjalan dengan baik.
 
@@ -796,20 +796,20 @@
     - Mengcopy kode ke clipboard
     - Membuat folder `models` pada `lib` dan menambahkan file `product.dart` yang berisi kode yang telah dicopy ke clipboard
 
-        // To parse this JSON data, do
-        //
-        //     final product = productFromJson(jsonString);
+          // To parse this JSON data, do
+          //
+          //     final product = productFromJson(jsonString);
 
-        import 'dart:convert';
+          import 'dart:convert';
 
-        List<Product> productFromJson(String str) => List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
+          List<Product> productFromJson(String str) => List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
 
-        String productToJson(List<Product> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+          String productToJson(List<Product> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-        class Product {
-            String model;
-            int pk;
-            Fields fields;
+          class Product {
+              String model;
+              int pk;
+              Fields fields;
 
             Product({
                 required this.model,
